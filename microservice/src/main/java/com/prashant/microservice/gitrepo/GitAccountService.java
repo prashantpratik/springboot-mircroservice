@@ -58,8 +58,16 @@ public class GitAccountService {
      */
     public List<GitHottestRepo> getHottestRepo(int count) {
         String queryFirstParam = "created:" + getDateInStringFormat(-1);
+//        Client client = ClientBuilder.newClient();
+//        return client
+//                .target(gitSearchRepoBaseUrl)
+//                .queryParam("q", queryFirstParam + queryRepoParam)
+//                .request(MediaType.APPLICATION_JSON)
+//                .get(GitRepoResponse.class).getItems().stream().limit(count).collect(Collectors.toList());
+
+
         UriComponentsBuilder gitUri = UriComponentsBuilder.fromUriString(gitSearchRepoBaseUrl).queryParam("q", queryFirstParam).query(queryRepoParam);
-        LOGGER.info("Processing Hottest Repo request for count: " + count);
+        LOGGER.info("Processing Hottest Repo request for count: " + count + "with URL: " + gitUri.toUriString());
         return restTemplate.getForObject(gitUri.toUriString(), GitRepoResponse.class).getItems().stream().limit(count).collect(Collectors.toList());
     }
 
